@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AllYouCanWatch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --card: #1a1a26;
+      --accent: #e63946;
+      --accent2: #f4a261;
+      --text: #eaeaea;
+      --muted: #888;
+      --border: #2a2a3a;
+      --green: #2ec4b6;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; }
+
+    nav {
+      background: var(--surface);
+      border-bottom: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 60px; position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--accent); letter-spacing: 2px; display: flex; align-items: center; gap: 6px; }
+    .nav-logo span { color: var(--accent2); }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { color: var(--text); text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+
+    .hero {
+      background: linear-gradient(120deg, #0a0a0f 40%, #1a0a12 100%);
+      padding: 60px 32px 40px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(230,57,70,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: var(--accent); letter-spacing: 4px; }
+    .hero h2 { font-size: 1.2rem; color: var(--accent2); margin-bottom: 8px; }
+    .hero p { color: var(--muted); max-width: 600px; margin: 0 auto 24px; }
+
+    section { padding: 40px 32px; }
+    h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--accent); letter-spacing: 2px; margin-bottom: 20px; border-left: 4px solid var(--accent); padding-left: 12px; }
+    h4 { font-size: 1rem; color: var(--accent2); margin-bottom: 8px; }
+    h5, h6 { color: var(--muted); font-size: 0.85rem; }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+    .card {
+      background: var(--card); border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--border); transition: transform 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+    .card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .card img { width: 100%; height: 220px; object-fit: cover; display: block; }
+    .card-body { padding: 10px; }
+    .card-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 4px; }
+    .card-meta { font-size: 0.75rem; color: var(--muted); }
+    .badge {
+      display: inline-block; background: var(--accent); color: white;
+      border-radius: 4px; padding: 2px 8px; font-size: 0.7rem; font-weight: 700; margin-top: 4px;
+    }
+    .badge.green { background: var(--green); }
+    .badge.orange { background: var(--accent2); color: #222; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; }
+    th { background: var(--accent); color: white; padding: 10px 14px; text-align: left; font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; font-size: 1rem; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 0.9rem; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(230,57,70,0.05); }
+
+    .form-section { background: var(--card); border-radius: 12px; padding: 32px; border: 1px solid var(--border); max-width: 700px; }
+    fieldset { border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    legend { color: var(--accent2); font-weight: 700; padding: 0 8px; }
+    label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; margin-top: 12px; }
+    input[type=text], input[type=email], input[type=number], input[type=date],
+    select, textarea {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); border-radius: 6px; padding: 8px 12px; font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem; transition: border-color 0.2s;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+    .btn {
+      background: var(--accent); color: white; border: none; border-radius: 8px;
+      padding: 10px 28px; font-family: 'Nunito', sans-serif; font-weight: 700;
+      font-size: 1rem; cursor: pointer; transition: background 0.2s;
+    }
+    .btn:hover { background: #c0303a; }
+    .btn-outline {
+      background: transparent; border: 2px solid var(--accent); color: var(--accent);
+      border-radius: 8px; padding: 8px 20px; font-weight: 700; cursor: pointer;
+    }
+
+    ul, ol { padding-left: 22px; color: var(--text); }
+    li { margin-bottom: 6px; font-size: 0.9rem; }
+
+    /* MERCH */
+    .merch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+    .merch-card { background: var(--card); border-radius: 10px; border: 1px solid var(--border); padding: 16px; text-align: center; transition: border-color 0.2s; display: flex; flex-direction: column; }
+    .merch-card:hover { border-color: var(--accent2); }
+    .merch-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+    .merch-price { color: var(--accent2); font-weight: 900; font-size: 1.1rem; }
+    .merch-card .merch-spacer { flex: 1; }
+    .merch-card .btn { margin-top: 12px; }
+
+    .comment { background: var(--card); border-left: 3px solid var(--accent); border-radius: 8px; padding: 14px 18px; margin-bottom: 14px; }
+    .comment-author { font-weight: 700; color: var(--accent2); }
+    .comment-date { font-size: 0.75rem; color: var(--muted); margin-left: 8px; }
+    .comment-text { margin-top: 6px; font-size: 0.9rem; color: var(--text); }
+
+    footer { background: var(--surface); border-top: 2px solid var(--accent); padding: 24px 32px; text-align: center; color: var(--muted); font-size: 0.85rem; }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
+
+    .center-wrap { text-align: center; }
+
+    .card img { background: var(--surface); transition: opacity 0.4s; }
+    .card img.loading { opacity: 0.3; }
+    .card-img-wrap { position: relative; overflow: hidden; height: 220px; background: var(--surface); }
+    .card-img-wrap::after {
+      content: attr(data-title);
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+      color: var(--accent2); font-size: 0.7rem; font-weight: 700;
+      padding: 20px 8px 8px; text-align: center;
+      pointer-events: none;
+    }
+    .card img { width: 100%; height: 220px; object-fit: cover; display: block; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2.5rem; }
+      nav { padding: 0 16px; }
+      section { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <div class="nav-logo">All<span>You</span>CanWatch</div>
+  <div class="nav-links">
+    <a href="#anime">Anime</a>
+    <a href="#filme">Filme</a>
+    <a href="#merch">Merch</a>
+    <a href="#top">Top</a>
+    <a href="#comentarii">Comentarii</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <h1>AllYouCanWatch</h1>
+  <h2>Anime · Filme · Merch · Comunitate</h2>
+  <p>Descoperă, urmărește și comandă merch din serialele și filmele tale preferate. Totul într-un singur loc.</p>
+  <center>
+    <a href="#anime"><button class="btn">Explorează acum</button></a>
+    &nbsp;
+    <button class="btn-outline">Creează cont</button>
+  </center>
+</div>
+
+<!-- ===== ANIME SECTION ===== -->
+<section id="anime">
+  <h3>🎌 Anime recomandate</h3>
+  <p><span><strong>Cele mai populare</strong></span> titluri ale momentului:</p>
+  <br>
+  <div class="cards-grid">
+
+    <div class="card" data-mal-id="16498">
+      <div class="card-img-wrap" data-title="Attack on Titan">
+        <img id="img-aot" src="" alt="Attack on Titan" width="160" height="220" title="Attack on Titan" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Attack on Titan</div>
+        <div class="card-meta">⭐ 9.1 &bull; 87 ep.</div>
+        <span class="badge">Action</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="38000">
+      <div class="card-img-wrap" data-title="Demon Slayer">
+        <img id="img-ds" src="" alt="Demon Slayer" width="160" height="220" title="Demon Slayer" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Demon Slayer</div>
+        <div class="card-meta">⭐ 8.7 &bull; 44 ep.</div>
+        <span class="badge green">Ongoing</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="40748">
+      <div class="card-img-wrap" data-title="Jujutsu Kaisen">
+        <img id="img-jjk" src="" alt="Jujutsu Kaisen" width="160" height="220" title="Jujutsu Kaisen" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Jujutsu Kaisen</div>
+        <div class="card-meta">⭐ 8.6 &bull; 47 ep.</div>
+        <span class="badge">Supernatural</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="5114">
+      <div class="card-img-wrap" data-title="FMA: Brotherhood">
+        <img id="img-fma" src="" alt="Fullmetal Alchemist" width="160" height="220" title="FMA: Brotherhood" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">FMA: Brotherhood</div>
+        <div class="card-meta">⭐ 9.2 &bull; 64 ep.</div>
+        <span class="badge orange">Classic</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="30276">
+      <div class="card-img-wrap" data-title="One Punch Man">
+        <img id="img-opm" src="" alt="One Punch Man" width="160" height="220" title="One Punch Man" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">One Punch Man</div>
+        <div class="card-meta">⭐ 8.5 &bull; 25 ep.</div>
+        <span class="badge">Comedy</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="52991">
+      <div class="card-img-wrap" data-title="Frieren">
+        <img id="img-frieren" src="" alt="Frieren" width="160" height="220" title="Frieren: Beyond Journey's End" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Frieren: Beyond Journey's End</div>
+        <div class="card-meta">⭐ 9.3 &bull; 28 ep.</div>
+        <span class="badge green">Fantasy</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="21">
+      <div class="card-img-wrap" data-title="One Piece">
+        <img id="img-op" src="" alt="One Piece" width="160" height="220" title="One Piece" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">One Piece</div>
+        <div class="card-meta">⭐ 9.0 &bull; 1100+ ep.</div>
+        <span class="badge orange">Adventure</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="55701">
+      <div class="card-img-wrap" data-title="Solo Leveling">
+        <img id="img-sl" src="" alt="Solo Leveling" width="160" height="220" title="Solo Leveling" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Solo Leveling</div>
+        <div class="card-meta">⭐ 8.8 &bull; 12 ep.</div>
+        <span class="badge">Action</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="11061">
+      <div class="card-img-wrap" data-title="Hunter x Hunter">
+        <img id="img-hxh" src="" alt="Hunter x Hunter" width="160" height="220" title="Hunter x Hunter" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Hunter x Hunter</div>
+        <div class="card-meta">⭐ 9.0 &bull; 148 ep.</div>
+        <span class="badge orange">Classic</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="1535">
+      <div class="card-img-wrap" data-title="Death Note">
+        <img id="img-dn" src="" alt="Death Note" width="160" height="220" title="Death Note" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Death Note</div>
+        <div class="card-meta">⭐ 8.6 &bull; 37 ep.</div>
+        <span class="badge">Thriller</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="38524">
+      <div class="card-img-wrap" data-title="Vinland Saga">
+        <img id="img-vs" src="" alt="Vinland Saga" width="160" height="220" title="Vinland Saga" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Vinland Saga</div>
+        <div class="card-meta">⭐ 8.8 &bull; 48 ep.</div>
+        <span class="badge">Historical</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="31240">
+      <div class="card-img-wrap" data-title="Re:Zero">
+        <img id="img-rezero" src="" alt="Re:Zero" width="160" height="220" title="Re:Zero" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Re:Zero</div>
+        <div class="card-meta">⭐ 8.3 &bull; 50 ep.</div>
+        <span class="badge green">Isekai</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="41467">
+      <div class="card-img-wrap" data-title="Chainsaw Man">
+        <img id="img-csm" src="" alt="Chainsaw Man" width="160" height="220" title="Chainsaw Man" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Chainsaw Man</div>
+        <div class="card-meta">⭐ 8.5 &bull; 12 ep.</div>
+        <span class="badge">Dark</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="48583">
+      <div class="card-img-wrap" data-title="Spy x Family">
+        <img id="img-sxf" src="" alt="Spy x Family" width="160" height="220" title="Spy x Family" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Spy x Family</div>
+        <div class="card-meta">⭐ 8.6 &bull; 37 ep.</div>
+        <span class="badge green">Comedy</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="9253">
+      <div class="card-img-wrap" data-title="Steins;Gate">
+        <img id="img-sg" src="" alt="Steins;Gate" width="160" height="220" title="Steins;Gate" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Steins;Gate</div>
+        <div class="card-meta">⭐ 9.1 &bull; 24 ep.</div>
+        <span class="badge orange">Sci-Fi</span>
+      </div>
+    </div>
+
+    <div class="card" data-mal-id="44511">
+      <div class="card-img-wrap" data-title="Bocchi the Rock">
+        <img id="img-bocchi" src="" alt="Bocchi the Rock" width="160" height="220" title="Bocchi the Rock" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Bocchi the Rock!</div>
+        <div class="card-meta">⭐ 8.9 &bull; 12 ep.</div>
+        <span class="badge green">Slice of Life</span>
+      </div>
+    </div>
+
+  </div>
+
+  <br>
+  <h4>Genuri disponibile:</h4>
+  <ul>
+    <li><strong>Shonen</strong> – acțiune, aventură, prietenie</li>
+    <li><strong>Isekai</strong> – personaje transportate în alte lumi</li>
+    <li><strong>Slice of Life</strong> – povești din viața de zi cu zi</li>
+    <li><strong>Mecha</strong> – roboți uriași și bătălii epice</li>
+  </ul>
+</section>
+
+<!-- ===== FILME SECTION ===== -->
+<section id="filme" style="background: var(--surface);">
+  <h3>🎬 Filme recomandate</h3>
+  <div class="cards-grid">
+
+    <div class="card">
+      <div class="card-img-wrap" data-title="Suzume">
+        <img id="img-suzume" src="" alt="Suzume" width="160" height="220" title="Suzume no Tojimari" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Suzume</div>
+        <div class="card-meta">⭐ 8.0 &bull; 2022</div>
+        <span class="badge green">Anime Film</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img-wrap" data-title="Spirited Away">
+        <img id="img-spirited" src="" alt="Spirited Away" width="160" height="220" title="Spirited Away" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Spirited Away</div>
+        <div class="card-meta">⭐ 9.3 &bull; 2001</div>
+        <span class="badge orange">Classic</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img-wrap" data-title="Interstellar">
+        <img id="img-interstellar" src="" alt="Interstellar" width="160" height="220" title="Interstellar" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Interstellar</div>
+        <div class="card-meta">⭐ 8.7 &bull; 2014</div>
+        <span class="badge">Sci-Fi</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img-wrap" data-title="Your Name">
+        <img id="img-yourname" src="" alt="Your Name" width="160" height="220" title="Kimi no Na wa" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Your Name</div>
+        <div class="card-meta">⭐ 8.9 &bull; 2016</div>
+        <span class="badge green">Anime Film</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img-wrap" data-title="Inception">
+        <img id="img-inception" src="" alt="Inception" width="160" height="220" title="Inception" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Inception</div>
+        <div class="card-meta">⭐ 8.8 &bull; 2010</div>
+        <span class="badge">Sci-Fi</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img-wrap" data-title="Dune Part Two">
+        <img id="img-dune2" src="" alt="Dune: Part Two" width="160" height="220" title="Dune: Part Two" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Dune: Part Two</div>
+        <div class="card-meta">⭐ 8.5 &bull; 2024</div>
+        <span class="badge">Epic</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img-wrap" data-title="Princess Mononoke">
+        <img id="img-mononoke" src="" alt="Princess Mononoke" width="160" height="220" title="Princess Mononoke" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Princess Mononoke</div>
+        <div class="card-meta">⭐ 8.7 &bull; 1997</div>
+        <span class="badge orange">Classic</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img-wrap" data-title="The Dark Knight">
+        <img id="img-dk" src="" alt="The Dark Knight" width="160" height="220" title="The Dark Knight" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">The Dark Knight</div>
+        <div class="card-meta">⭐ 9.0 &bull; 2008</div>
+        <span class="badge orange">Classic</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img-wrap" data-title="A Quiet Place">
+        <img id="img-aqp" src="" alt="A Quiet Place" width="160" height="220" title="A Quiet Place" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">A Quiet Place</div>
+        <div class="card-meta">⭐ 7.5 &bull; 2018</div>
+        <span class="badge">Horror</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img-wrap" data-title="Oppenheimer">
+        <img id="img-oppen" src="" alt="Oppenheimer" width="160" height="220" title="Oppenheimer" style="background:#1a1a26">
+      </div>
+      <div class="card-body">
+        <div class="card-title">Oppenheimer</div>
+        <div class="card-meta">⭐ 8.9 &bull; 2023</div>
+        <span class="badge green">Drama</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== TOP TABLE ===== -->
+<section id="top">
+  <h3>🏆 Top AllYouCanWatch</h3>
+  <div class="table-wrap">
+    <table border="1" title="Clasament titluri">
+      <tr>
+        <th align="center" width="50" valign="middle">#</th>
+        <th width="200" valign="middle">Titlu</th>
+        <th align="center" width="80" valign="middle">Rating</th>
+        <th align="center" width="100" valign="middle">Tip</th>
+        <th align="center" width="100" valign="middle">Episoade</th>
+        <th align="center" width="100" valign="middle">Status</th>
+      </tr>
+      <tr>
+        <td align="center" valign="middle"><strong>1</strong></td>
+        <td valign="middle"><a href="#anime" title="FMA Brotherhood">Fullmetal Alchemist: Brotherhood</a></td>
+        <td align="center" valign="middle" bgcolor="#1a2a1a"><span style="color:var(--green)">9.2</span></td>
+        <td align="center" valign="middle">Anime</td>
+        <td align="center" valign="middle">64</td>
+        <td align="center" valign="middle"><span class="badge orange">Finalizat</span></td>
+      </tr>
+      <tr>
+        <td align="center" valign="middle"><strong>2</strong></td>
+        <td valign="middle"><a href="#anime" title="Attack on Titan">Attack on Titan</a></td>
+        <td align="center" valign="middle"><span style="color:var(--green)">9.1</span></td>
+        <td align="center" valign="middle">Anime</td>
+        <td align="center" valign="middle">87</td>
+        <td align="center" valign="middle"><span class="badge orange">Finalizat</span></td>
+      </tr>
+      <tr>
+        <td align="center" valign="middle"><strong>3</strong></td>
+        <td valign="middle"><a href="#filme" title="Spirited Away">Spirited Away</a></td>
+        <td align="center" valign="middle"><span style="color:var(--green)">9.3</span></td>
+        <td align="center" valign="middle">Film</td>
+        <td align="center" valign="middle" colspan="1">—</td>
+        <td align="center" valign="middle"><span class="badge green">Disponibil</span></td>
+      </tr>
+      <tr>
+        <td align="center" valign="middle"><strong>4</strong></td>
+        <td valign="middle"><a href="#filme" title="Interstellar">Interstellar</a></td>
+        <td align="center" valign="middle"><span style="color:var(--green)">8.7</span></td>
+        <td align="center" valign="middle">Film</td>
+        <td align="center" valign="middle" colspan="1">—</td>
+        <td align="center" valign="middle"><span class="badge green">Disponibil</span></td>
+      </tr>
+      <tr>
+        <td align="center" valign="middle"><strong>5</strong></td>
+        <td valign="middle"><a href="#anime" title="Demon Slayer">Demon Slayer</a></td>
+        <td align="center" valign="middle"><span style="color:var(--green)">8.7</span></td>
+        <td align="center" valign="middle">Anime</td>
+        <td align="center" valign="middle">44</td>
+        <td align="center" valign="middle"><span class="badge green">Ongoing</span></td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===== MERCH SECTION ===== -->
+<section id="merch" style="background: var(--surface);">
+  <h3>🛒 Comandă Merch</h3>
+  <p style="color:var(--muted); margin-bottom:20px;">Produse oficiale din serialele tale preferate. Livrare în toată România.</p>
+
+  <div class="merch-grid">
+    <div class="merch-card">
+      <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop" alt="Tricou anime negru" width="200" height="160" title="Tricou AoT – Survey Corps" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:10px;">
+      <h4>Tricou AoT – Survey Corps</h4>
+      <p style="font-size:0.8rem;color:var(--muted)">100% bumbac, mai multe culori</p>
+      <p class="merch-price">89 RON</p>
+      <div class="merch-spacer"></div>
+      <button class="btn" style="width:100%;padding:8px;" title="Adaugă în coș">Adaugă în coș</button>
+    </div>
+    <div class="merch-card">
+      <img src="https://images.unsplash.com/photo-1541367777708-7905fe3296c0?w=400&h=300&fit=crop" alt="Poster anime pe perete" width="200" height="160" title="Poster Demon Slayer A2" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:10px;">
+      <h4>Poster Demon Slayer</h4>
+      <p style="font-size:0.8rem;color:var(--muted)">Format A2, laminat</p>
+      <p class="merch-price">45 RON</p>
+      <div class="merch-spacer"></div>
+      <button class="btn" style="width:100%;padding:8px;" title="Adaugă în coș">Adaugă în coș</button>
+    </div>
+    <div class="merch-card">
+      <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop" alt="Rucsac negru" width="200" height="160" title="Rucsac FMA 20L" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:10px;">
+      <h4>Rucsac FMA</h4>
+      <p style="font-size:0.8rem;color:var(--muted)">Rezistent la apă, 20L</p>
+      <p class="merch-price">130 RON</p>
+      <div class="merch-spacer"></div>
+      <button class="btn" style="width:100%;padding:8px;" title="Adaugă în coș">Adaugă în coș</button>
+    </div>
+    <div class="merch-card">
+      <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop" alt="Cană ceramică albă" width="200" height="160" title="Cană Spirited Away 350ml" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:10px;">
+      <h4>Cană Spirited Away</h4>
+      <p style="font-size:0.8rem;color:var(--muted)">Ceramică, 350ml</p>
+      <p class="merch-price">55 RON</p>
+      <div class="merch-spacer"></div>
+      <button class="btn" style="width:100%;padding:8px;" title="Adaugă în coș">Adaugă în coș</button>
+    </div>
+    <div class="merch-card">
+      <img src="https://images.unsplash.com/photo-1608889825103-eb5ed706fc64?w=400&h=300&fit=crop" alt="Figurina colectie anime" width="200" height="160" title="Figurină One Piece – Luffy" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:10px;">
+      <h4>Figurină One Piece – Luffy</h4>
+      <p style="font-size:0.8rem;color:var(--muted)">PVC, 18cm, ediție limitată</p>
+      <p class="merch-price">175 RON</p>
+      <div class="merch-spacer"></div>
+      <button class="btn" style="width:100%;padding:8px;" title="Adaugă în coș">Adaugă în coș</button>
+    </div>
+    <div class="merch-card">
+      <img src="https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=400&h=300&fit=crop" alt="Hanorac negru product photo" width="200" height="160" title="Hanorac Jujutsu Kaisen" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:10px;">
+      <h4>Hanorac Jujutsu Kaisen</h4>
+      <p style="font-size:0.8rem;color:var(--muted)">Fleece interior, unisex</p>
+      <p class="merch-price">210 RON</p>
+      <div class="merch-spacer"></div>
+      <button class="btn" style="width:100%;padding:8px;" title="Adaugă în coș">Adaugă în coș</button>
+    </div>
+  </div>
+
+  <br>
+  <!-- MERCH ORDER FORM -->
+  <div class="form-section">
+    <h4 style="font-size:1.2rem; margin-bottom:4px;">Formular comandă merch</h4>
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Completează datele și vom livra în 3-5 zile lucrătoare.</p>
+
+    <form name="orderForm" target="_self">
+
+      <fieldset>
+        <legend>Date personale</legend>
+
+        <label for="fname">Nume complet</label>
+        <input type="text" id="fname" name="fname" placeholder="Ion Popescu"
+               maxlength="60" size="35" title="Numele tău complet"/>
+
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" placeholder="email@exemplu.ro"
+               maxlength="80" size="35" title="Adresa de email"/>
+
+        <label for="adresa">Adresă livrare</label>
+        <textarea id="adresa" name="adresa" cols="45" rows="3"
+                  placeholder="Str. Exemplu, nr. 1, Cluj-Napoca" maxlength="200"></textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend>Produs dorit</legend>
+
+        <label for="produs">Alege produsul</label>
+        <select id="produs" name="produs" size="1" title="Selectează produsul">
+          <option value="" selected>-- Selectează --</option>
+          <option value="tricou">Tricou AoT – 89 RON</option>
+          <option value="poster">Poster Demon Slayer – 45 RON</option>
+          <option value="rucsac">Rucsac FMA – 130 RON</option>
+          <option value="cana">Cană Spirited Away – 55 RON</option>
+        </select>
+
+        <label for="marime">Mărime (dacă e tricou)</label>
+        <select id="marime" name="marime" multiple title="Poți selecta mai multe mărimi">
+          <option value="S">S</option>
+          <option value="M" selected>M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+        </select>
+
+        <label for="cantitate">Cantitate</label>
+        <input type="number" id="cantitate" name="cantitate" value="1"
+               min="1" max="10" step="1" width="80" title="Numărul de bucăți"/>
+
+        <br><br>
+        <label>
+          <input type="checkbox" name="cadou" value="da" checked title="Ambalaj cadou"/>
+          &nbsp; Doresc ambalaj cadou (+5 RON)
+        </label>
+        <br>
+        <label>
+          <input type="checkbox" name="newsletter" value="da" title="Abonare newsletter"/>
+          &nbsp; Abonează-mă la newsletter
+        </label>
+        <br>
+        <label>
+          <input type="checkbox" name="acord" value="da" disabled title="Acord GDPR (obligatoriu)"/>
+          &nbsp; <span style="color:var(--muted)">Acord GDPR (bifează mai sus)</span>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Metodă de plată</legend>
+        <label>
+          <input type="radio" name="plata" value="card" checked title="Plată cu cardul"/>
+          &nbsp; Card bancar
+        </label><br>
+        <label>
+          <input type="radio" name="plata" value="ramburs" title="Ramburs la livrare"/>
+          &nbsp; Ramburs la livrare
+        </label><br>
+        <label>
+          <input type="radio" name="plata" value="transfer" title="Transfer bancar"/>
+          &nbsp; Transfer bancar
+        </label>
+      </fieldset>
+
+      <label for="observatii">Observații comandă</label>
+      <textarea id="observatii" name="observatii" cols="45" rows="3"
+                placeholder="Mesaj sau instrucțiuni speciale..." readonly
+                onclick="this.removeAttribute('readonly')" title="Click pentru a edita"></textarea>
+      <p style="font-size:0.75rem;color:var(--muted)">* Click pe câmpul de mai sus pentru a scrie.</p>
+
+      <br>
+      <button type="submit" class="btn" title="Trimite comanda">Trimite comanda 🚀</button>
+      &nbsp;
+      <button type="reset" class="btn-outline" title="Resetează formularul">Resetează</button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== COMENTARII SECTION ===== -->
+<section id="comentarii">
+  <h3>💬 Comentarii comunitate</h3>
+
+  <!-- Existing comments -->
+  <div class="comment">
+    <span class="comment-author">@SakuraDreams</span>
+    <span class="comment-date">10 Mar 2025</span>
+    <p class="comment-text">FMA Brotherhood este fără îndoială cel mai bun anime din toate timpurile. Finalul m-a lăsat fără cuvinte! <span title="Review validat">✅</span></p>
+  </div>
+  <div class="comment">
+    <span class="comment-author">@OtakuRomania</span>
+    <span class="comment-date">08 Mar 2025</span>
+    <p class="comment-text">Comanda de merch a ajuns super repede! Tricoul AoT e de calitate bună, <strong>recomand</strong> tuturor!</p>
+  </div>
+  <div class="comment">
+    <span class="comment-author">@AnimeLover99</span>
+    <span class="comment-date">05 Mar 2025</span>
+    <p class="comment-text">Spirited Away rămâne un film magic. L-am văzut cu toată familia și a plâns toată lumea la final 😭</p>
+  </div>
+
+  <br>
+  <!-- Add comment form -->
+  <div class="form-section">
+    <h4>Lasă un comentariu</h4>
+    <form name="commentForm" target="_self">
+      <fieldset>
+        <legend>Comentariu nou</legend>
+
+        <label for="cUsername">Nume utilizator</label>
+        <input type="text" id="cUsername" name="username" placeholder="@NumeleTău"
+               maxlength="30" size="25" title="Numele tău de utilizator"/>
+
+        <label for="cTitlu">Despre ce titlu comentezi?</label>
+        <select id="cTitlu" name="titlu" title="Alege titlul">
+          <option value="" selected>-- Alege titlul --</option>
+          <option value="aot">Attack on Titan</option>
+          <option value="fma">FMA: Brotherhood</option>
+          <option value="ds">Demon Slayer</option>
+          <option value="jjk">Jujutsu Kaisen</option>
+          <option value="spirited">Spirited Away</option>
+          <option value="interstellar">Interstellar</option>
+          <option value="altul">Altul</option>
+        </select>
+
+        <label for="cRating">Rating (1-10)</label>
+        <input type="number" id="cRating" name="rating" value="8"
+               min="1" max="10" step="1" title="Dă un rating"/>
+
+        <label for="cMesaj">Mesajul tău</label>
+        <textarea id="cMesaj" name="mesaj" cols="50" rows="4"
+                  maxlength="500" placeholder="Scrie-ți părerea..."></textarea>
+
+        <br><br>
+        <label>
+          <input type="checkbox" name="spoiler" value="da" title="Marchează spoilere"/>
+          &nbsp; Comentariul conține spoilere
+        </label>
+
+        <br><br>
+        <button type="submit" class="btn" title="Postează comentariul">Postează comentariu</button>
+      </fieldset>
+    </form>
+  </div>
+</section>
+
+<!-- ===== CONTACT / INFO ===== -->
+<section id="contact" style="background: var(--surface);">
+  <h3>📬 Despre noi & Contact</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; flex-wrap:wrap;">
+
+    <div>
+      <h4>Ce oferim</h4>
+      <ol start="1">
+        <li>Bază de date cu <b>10.000+</b> anime și filme</li>
+        <li>Sistem de rating și recenzii</li>
+        <li>Merch oficial livrat în România</li>
+      </ol>
+      <br>
+      <p style="font-size:0.8rem;color:var(--muted)">De asemenea:</p>
+      <ol start="4">
+        <li>Comunitate activă de <b>50.000+</b> membri</li>
+        <li>Newsletter săptămânal cu noutăți</li>
+      </ol>
+      <br>
+      <h5>Parteneri oficiali:</h5>
+      <h6>Crunchyroll · Funimation · Netflix Anime</h6>
+    </div>
+
+    <div>
+      <h4>Contactează-ne</h4>
+      <form name="contactForm" target="_blank">
+        <fieldset>
+          <legend>Formular contact</legend>
+
+          <label for="ctNume">Nume</label>
+          <input type="text" id="ctNume" name="ctNume" placeholder="Numele tău"
+                 size="30" maxlength="50" title="Numele tău"/>
+
+          <label for="ctSubiect">Subiect</label>
+          <select id="ctSubiect" name="subiect" title="Subiectul mesajului">
+            <option value="general" selected>Întrebare generală</option>
+            <option value="comanda">Problemă comandă</option>
+            <option value="bug">Raportare bug</option>
+            <option value="parteneriat">Parteneriat</option>
+          </select>
+
+          <label for="ctMsg">Mesaj</label>
+          <textarea id="ctMsg" name="ctMsg" cols="35" rows="4"
+                    placeholder="Mesajul tău..." maxlength="1000" title="Scrie mesajul tău"></textarea>
+
+          <br><br>
+          <button type="submit" class="btn" title="Trimite mesaj">Trimite mesaj</button>
+        </fieldset>
+      </form>
+    </div>
+
+  </div>
+
+  <br>
+  <hr>
+  <br>
+  <div class="center-wrap">
+    <p style="color:var(--muted)">
+      Urmărește-ne:
+      <a href="#" target="_blank" title="Instagram AllYouCanWatch" style="color:var(--accent2)">Instagram</a> &bull;
+      <a href="#" target="_blank" title="Discord comunitate" style="color:var(--accent2)">Discord</a> &bull;
+      <a href="#" target="_blank" title="Twitter/X" style="color:var(--accent2)">Twitter/X</a>
+    </p>
+    <br>
+    <p>
+      <span style="color:var(--accent)">AllYouCanWatch</span>
+      &mdash; Platforma #1 pentru <b>anime</b>, <b>filme</b> și <b>merch</b> din România.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 <strong>AllYouCanWatch</strong></p>
+</footer>
+
+<script>
+// ===== ANIME — Jikan API (MAL) =====
+const animeList = [
+  { id: 16498, imgId: 'img-aot',     label: 'Attack+on+Titan' },
+  { id: 38000, imgId: 'img-ds',      label: 'Demon+Slayer' },
+  { id: 40748, imgId: 'img-jjk',     label: 'Jujutsu+Kaisen' },
+  { id: 5114,  imgId: 'img-fma',     label: 'FMA+Brotherhood' },
+  { id: 30276, imgId: 'img-opm',     label: 'One+Punch+Man' },
+  { id: 52991, imgId: 'img-frieren', label: 'Frieren' },
+  { id: 21,    imgId: 'img-op',      label: 'One+Piece' },
+  { id: 55701, imgId: 'img-sl',      label: 'Solo+Leveling' },
+  { id: 11061, imgId: 'img-hxh',     label: 'Hunter+x+Hunter' },
+  { id: 1535,  imgId: 'img-dn',      label: 'Death+Note' },
+  { id: 38524, imgId: 'img-vs',      label: 'Vinland+Saga' },
+  { id: 31240, imgId: 'img-rezero',  label: 'Re+Zero' },
+  { id: 41467, imgId: 'img-csm',     label: 'Chainsaw+Man' },
+  { id: 48583, imgId: 'img-sxf',     label: 'Spy+x+Family' },
+  { id: 9253,  imgId: 'img-sg',      label: 'Steins+Gate' },
+  { id: 44511, imgId: 'img-bocchi',  label: 'Bocchi+the+Rock' },
+];
+
+// Anime films via Jikan
+const animeFilms = [
+  { id: 32281, imgId: 'img-yourname',  label: 'Your+Name' },   
+  { id: 572,   imgId: 'img-mononoke', label: 'Princess+Mononoke' },
+  { id: 199,   imgId: 'img-spirited', label: 'Spirited+Away' },
+  { id: 32935, imgId: 'img-suzume',   label: 'Suzume' },
+];
+
+// Live-action films via TMDB 
+const filmPosters = {
+  'img-interstellar': 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg',
+  'img-inception':    'https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
+  'img-dune2':        'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
+  'img-dk':           'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg',
+  'img-aqp':          'https://image.tmdb.org/t/p/w500/nAU74GmpUk7t5iklEp3bufwDq4n.jpg',
+  'img-oppen':        'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
+};
+
+async function fetchJikanImage(malId, imgId, label) {
+  const img = document.getElementById(imgId);
+  if (!img) return;
+  try {
+    const res = await fetch(`https://api.jikan.moe/v4/anime/${malId}`);
+    const data = await res.json();
+    const url = data?.data?.images?.jpg?.large_image_url || data?.data?.images?.jpg?.image_url;
+    if (url) { img.src = url; }
+    else throw new Error();
+  } catch {
+    img.src = `https://via.placeholder.com/160x220/1a1a26/e63946?text=${label}`;
+  }
+}
+
+function loadTMDBImage(imgId, url) {
+  const img = document.getElementById(imgId);
+  if (!img) return;
+  img.src = url;
+  img.onerror = () => { img.src = `https://via.placeholder.com/160x220/1a1a26/888?text=Film`; };
+}
+
+// Stagger Jikan calls 
+const allJikan = [...animeList, ...animeFilms];
+allJikan.forEach((item, i) => {
+  setTimeout(() => fetchJikanImage(item.id, item.imgId, item.label), i * 420);
+});
+
+// Load TMDB posters immediately 
+Object.entries(filmPosters).forEach(([imgId, url]) => loadTMDBImage(imgId, url));
+</script>
+</body>
+</html>
