@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html style="background-color: <%= theme === 'dark' ? '#333' : '#fff' %>; color: <%= theme === 'dark' ? '#fff' : '#000' %>;">
+<head><title>Zona Protejata</title></head>
+<body style="padding: 20px; font-family: Arial;">
+    <a href="/logout" style="float: right; color: red;">Logout</a>
+    
+    <h1>Salutare, <%= user.username %>!</h1>
+    <p>Ai accesat pagina de <strong><%= views %></strong> ori in aceasta sesiune.</p>
+    
+    <p>
+        <% if (theme === 'dark') { %> 🌙 Cookie Custom Activ: Dark Mode <% } else { %> ☀️ Cookie: Light Mode <% } %>
+    </p><hr>
+
+    <h2>Top Anime-uri:</h2>
+    <ul>
+        <% animeList.forEach(function(a) { %>
+            <li><strong><%= a.titlu %></strong> - <%= a.gen %> 
+                <a href="/anime/<%= a.id %>">[Vezi Detalii]</a>
+            </li>
+        <% }); %>
+    </ul>
+</body>
+</html>

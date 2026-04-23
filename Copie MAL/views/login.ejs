@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head><title>Login - WeebHub</title></head>
+<body style="font-family: Arial; text-align: center; padding-top: 50px;">
+    <h1>WeebHub Autentificare</h1>
+    <% if (error) { %> <p style="color: red;"><%= error %></p> <% } %>
+    
+    <div style="display: flex; justify-content: center; gap: 50px;">
+        <form action="/login" method="POST" style="border: 1px solid #ccc; padding: 20px;">
+            <h3>Logare</h3>
+            <input type="text" name="username" placeholder="Username" required><br><br>
+            <input type="password" name="password" placeholder="Parola" required><br><br>
+            <button type="submit">Intră</button>
+        </form>
+        <form action="/register" method="POST" style="border: 1px solid #ccc; padding: 20px;">
+            <h3>Înregistrare</h3>
+            <input type="text" name="username" placeholder="Username" required><br><br>
+            <input type="password" name="password" placeholder="Parola" required><br><br>
+            <button type="submit">Creează Cont</button>
+        </form>
+    </div>
+</body>
+</html>
