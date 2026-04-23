@@ -33,7 +33,7 @@ app.use('/anime', animeRoutes);
 
 // Redirect la pagina de login daca utilizatorul acceseaza radacina
 app.get('/', (req, res) => {
-    res.redirect('/login');
+    res.render('home');
 });
 
 app.listen(PORT, () => {
