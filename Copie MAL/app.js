@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000;
 // Setarea motorului de template si a folderului de vizualizari
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middlewares Globale
 app.use(express.urlencoded({ extended: true })); // Pentru a parsa formularele
@@ -34,6 +35,14 @@ app.use('/anime', animeRoutes);
 // Redirect la pagina de login daca utilizatorul acceseaza radacina
 app.get('/', (req, res) => {
     res.render('home');
+});
+
+app.get('/toggle-theme', (req, res) => {
+    const currentTheme = req.cookies.theme || 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    res.cookie('theme', newTheme);
+    res.redirect('back');
 });
 
 app.listen(PORT, () => {

@@ -1,23 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head><title>Login - WeebHub</title></head>
-<body style="font-family: Arial; text-align: center; padding-top: 50px;">
-    <h1>WeebHub Autentificare</h1>
-    <% if (error) { %> <p style="color: red;"><%= error %></p> <% } %>
+<head>
+    <title>Login - WeebHub</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
     
-    <div style="display: flex; justify-content: center; gap: 50px;">
-        <form action="/login" method="POST" style="border: 1px solid #ccc; padding: 20px;">
-            <h3>Logare</h3>
-            <input type="text" name="username" placeholder="Username" required><br><br>
-            <input type="password" name="password" placeholder="Parola" required><br><br>
-            <button type="submit">Intră</button>
+    <!-- Bara de navigare -->
+    <div class="navbar">
+        <h2>WeebHub</h2>
+        <div>
+            <a href="/">Acasă</a>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+        <h1>Autentificare</h1>
+        <% if (error) { %> 
+            <p style="color: #d62828; font-weight: bold; background: #ffddd2; display: inline-block; padding: 10px; border-radius: 5px;"><%= error %></p> 
+        <% } %>
+    </div>
+    
+    <div class="form-container">
+        <!-- Card Logare -->
+        <form action="/login" method="POST" class="card">
+            <h3 style="color: #0077b6;">Intră în cont</h3>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Parola" required>
+            <button type="submit" class="btn btn-login">Logare</button>
         </form>
-        <form action="/register" method="POST" style="border: 1px solid #ccc; padding: 20px;">
-            <h3>Înregistrare</h3>
-            <input type="text" name="username" placeholder="Username" required><br><br>
-            <input type="password" name="password" placeholder="Parola" required><br><br>
-            <button type="submit">Creează Cont</button>
+
+        <!-- Card Inregistrare -->
+        <form action="/register" method="POST" class="card">
+            <h3 style="color: #00b4d8;">Cont Nou</h3>
+            <input type="text" name="username" placeholder="Alege Username" required>
+            <input type="password" name="password" placeholder="Alege Parola" required>
+            <button type="submit" class="btn btn-register">Creează Cont</button>
         </form>
     </div>
+
 </body>
 </html>

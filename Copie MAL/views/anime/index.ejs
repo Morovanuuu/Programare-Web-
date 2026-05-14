@@ -1,23 +1,67 @@
 <!DOCTYPE html>
-<html style="background-color: <%= theme === 'dark' ? '#333' : '#fff' %>; color: <%= theme === 'dark' ? '#fff' : '#000' %>;">
-<head><title>Zona Protejata</title></head>
-<body style="padding: 20px; font-family: Arial;">
-    <a href="/logout" style="float: right; color: red;">Logout</a>
+<html>
+<head>
+    <title>Zona Protejata - WeebHub</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<!-- Am mutat stilurile direct pe body ca sa suprascrie fisierul CSS -->
+<body style="background-color: <%= theme === 'dark' ? '#222' : '#f0f4f8' %>; color: <%= theme === 'dark' ? '#fff' : '#333' %>; transition: background-color 0.3s, color 0.3s; margin: 0;">
     
-    <h1>Salutare, <%= user.username %>!</h1>
-    <p>Ai accesat pagina de <strong><%= views %></strong> ori in aceasta sesiune.</p>
-    
-    <p>
-        <% if (theme === 'dark') { %> 🌙 Cookie Custom Activ: Dark Mode <% } else { %> ☀️ Cookie: Light Mode <% } %>
-    </p><hr>
+    <div class="navbar" style="<%= theme === 'dark' ? 'background-color: #111; box-shadow: 0 4px 6px rgba(255,255,255,0.05);' : '' %>">
+        <h2>WeebHub</h2>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            
+            <a href="/toggle-theme" style="text-decoration: none;">
+                <button style="background-color: <%= theme === 'dark' ? '#f1c40f' : '#2c3e50' %>; color: <%= theme === 'dark' ? '#333' : '#fff' %>; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s;">
+                    <%= theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode' %>
+                </button>
+            </a>
 
-    <h2>Top Anime-uri:</h2>
-    <ul>
+            <!-- Afiseaza doar username-ul -->
+            <span style="color: white; font-weight: bold;"><%= user.username %></span>
+            <a href="/logout" style="color: #ff4d4d;">Deconectare</a>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: center; margin-top: 40px;">
+        <div class="card" style="width: 450px; <%= theme === 'dark' ? 'background: #333; color: white;' : '' %>">
+            <h2 style="color: <%= theme === 'dark' ? '#90e0ef' : '#023e8a' %>; margin-top: 0; font-size: 1.5em;">Panoul Tau de Control</h2>
+            <hr style="border-color: <%= theme === 'dark' ? '#555' : '#eee' %>; margin-bottom: 20px;">
+            
+            <div style="display: flex; justify-content: space-around;">
+                <div>
+                    <h3 style="margin: 0; font-size: 1.8em; color: <%= theme === 'dark' ? '#f1c40f' : '#2c3e50' %>;">
+                        <%= theme === 'dark' ? '🌙' : '☀️' %>
+                    </h3>
+                    <p style="margin: 5px 0 0 0; color: #888; font-size: 0.9em;">Tema Activa</p>
+                </div>
+
+                <div>
+                    <h3 style="margin: 0; font-size: 1.8em; color: <%= theme === 'dark' ? '#90e0ef' : '#0077b6' %>;"><%= views %></h3>
+                    <p style="margin: 5px 0 0 0; color: #888; font-size: 0.9em;">Afisari pagina</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Culoarea titlului se schimba automat in alb cand e pe dark mode -->
+    <h2 style="text-align: center; margin-top: 50px; font-size: 2em; color: <%= theme === 'dark' ? '#fff' : '#333' %>;">Colectia de Anime</h2>
+    
+    <div class="anime-grid">
         <% animeList.forEach(function(a) { %>
-            <li><strong><%= a.titlu %></strong> - <%= a.gen %> 
-                <a href="/anime/<%= a.id %>">[Vezi Detalii]</a>
-            </li>
+            <div class="anime-card" style="<%= theme === 'dark' ? 'background: #333; color: white;' : '' %>">
+                
+                <img src="https://via.placeholder.com/220x300/<%= theme === 'dark' ? '222222' : '0077b6' %>/ffffff?text=<%= a.titlu %>" alt="Poster">
+                
+                <h3 style="<%= theme === 'dark' ? 'color: #90e0ef;' : '#023e8a' %>"><%= a.titlu %></h3>
+                <p style="<%= theme === 'dark' ? 'color: #ccc;' : '#666' %>"><%= a.gen %> • <%= a.eps %> eps.</p>
+                
+                <a href="/anime/<%= a.id %>" style="text-decoration: none;">
+                    <button class="btn btn-login" style="width: 80%; margin-bottom: 10px;">Vezi Detalii</button>
+                </a>
+            </div>
         <% }); %>
-    </ul>
+    </div>
+
 </body>
 </html>

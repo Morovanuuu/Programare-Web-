@@ -1,0 +1,115 @@
+/* Setari generale pentru tot site-ul */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+    color: #333;
+}
+
+/* Bara de navigare de sus */
+.navbar {
+    background-color: #023e8a;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.navbar h2 { margin: 0; color: white; }
+.navbar a {
+    color: #90e0ef;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 20px;
+    transition: 0.3s;
+}
+.navbar a:hover { color: white; }
+
+/* Design-ul pentru Carduri  */
+.form-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+    width: 300px;
+    text-align: center;
+}
+
+.card input {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.btn-login { background-color: #0077b6; }
+.btn-login:hover { background-color: #023e8a; transform: translateY(-2px); }
+
+.btn-register { background-color: #00b4d8; }
+.btn-register:hover { background-color: #0096c7; transform: translateY(-2px); }
+
+
+.anime-grid {
+    display: grid;
+    /* Creează automat coloane în functie de spatiul disponibil pe ecran */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.anime-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.anime-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+}
+
+.anime-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    background-color: #ddd; /* Culoare de fundal daca nu exista poza */
+}
+
+.anime-card h3 {
+    color: #023e8a;
+    margin: 15px 10px 5px 10px;
+    font-size: 1.2em;
+}
+
+.anime-card p {
+    color: #666;
+    font-size: 0.9em;
+    margin: 0 10px 15px 10px;
+}
