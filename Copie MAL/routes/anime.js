@@ -51,7 +51,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// RUTA NOUA: Pentru cand se apasa pe butonul "Adauga la Vizionate"
+// R Pentru cand se apasa pe butonul "Adauga la Vizionate"
 router.post('/:id/vizionat', (req, res) => {
     const animeId = parseInt(req.params.id);
     usersDB.addWatched(req.session.user.username, animeId);
