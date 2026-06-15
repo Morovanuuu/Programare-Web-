@@ -42,8 +42,30 @@ app.get('/toggle-theme', (req, res) => {
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     
     res.cookie('theme', newTheme);
-    res.redirect('back');
+    res.redirect('/anime');
 });
+
+
+// Trebuie sa importam baza de date a utilizatorilor sus (sau fix deasupra rutei)
+const usersDB = require('./db/users');
+
+app.get('/profil', (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+
+    // Luam numarul real de vizionate din baza de date
+    const nrVizionate = usersDB.getWatchedCount(req.session.user.username);
+
+    res.render('user/profil', {
+        user: req.session.user,
+        views: req.session.views || 0,
+        theme: req.cookies.theme || 'light',
+        vizionate: nrVizionate, // 
+        genPreferat: 'Action' //
+    });
+});
+
 
 app.listen(PORT, () => {
     console.log(`🚀 Serverul a pornit pe http://localhost:${PORT}`);

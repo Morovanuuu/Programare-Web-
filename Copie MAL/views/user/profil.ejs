@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profilul Meu - WeebHub</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body style="background-color: <%= theme === 'dark' ? '#222' : '#f0f4f8' %>; color: <%= theme === 'dark' ? '#fff' : '#333' %>; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0;">
+    
+    <div class="navbar" style="<%= theme === 'dark' ? 'background-color: #111;' : '' %>">
+        <h2>WeebHub</h2>
+        <div>
+            <a href="/anime" style="color: white; margin-right: 15px;">Inapoi la colectie</a>
+            <a href="/logout" style="color: #ff4d4d;">Deconectare</a>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: center; margin-top: 60px; padding: 0 20px;">
+        <div class="card" style="width: 500px; padding: 40px; <%= theme === 'dark' ? 'background: #333; color: white;' : '' %>">
+            
+            <img src="https://ui-avatars.com/api/?name=<%= user.username %>&background=0077b6&color=fff&size=120" alt="Avatar" style="border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin-bottom: 20px;">
+            
+            <h1 style="color: <%= theme === 'dark' ? '#90e0ef' : '#023e8a' %>; margin-top: 0;"><%= user.username %></h1>
+            <p style="color: <%= theme === 'dark' ? '#ccc' : '#666' %>; font-style: italic;">WeebHub Member</p>
+            
+            <hr style="border-color: <%= theme === 'dark' ? '#555' : '#eee' %>; margin: 25px 0;">
+
+            <div style="text-align: left; padding: 0 20px;">
+                <h3 style="color: <%= theme === 'dark' ? '#fff' : '#333' %>; margin-bottom: 10px;">Detalii Cont:</h3>
+                <ul style="list-style-type: none; padding: 0; line-height: 1.8; font-size: 1.1em;">
+                    <li><strong>Tema Activa:</strong> <%= theme === 'dark' ? 'Dark Mode 🌙' : 'Light Mode ☀️' %></li>
+                    <li><strong>Nivel Activitate:</strong> Accesari protejate: <%= views %></li>
+                    
+                    <li><strong>Animeuri Vizionate:</strong> <span style="color: #00b4d8; font-weight: bold;"><%= vizionate %></span></li>
+                    <li><strong>Gen Preferat:</strong> <span style="color: #f1c40f; font-weight: bold;"><%= genPreferat %> 🎬</span></li>
+                </ul>
+            </div>
+
+            <hr style="border-color: <%= theme === 'dark' ? '#555' : '#eee' %>; margin: 25px 0;">
+
+            <div style="display: flex; gap: 15px; margin-top: 30px; justify-content: center; flex-wrap: wrap;">
+                <a href="/anime" style="text-decoration: none;">
+                    <button style="background-color: #0077b6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Inapoi</button>
+                </a>
+                
+                <a href="/schimba-parola" style="text-decoration: none;">
+                    <button style="background-color: #f39c12; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Schimba Parola</button>
+                </a>
+
+                <a href="/sterge-cont" style="text-decoration: none;">
+                    <button style="background-color: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Sterge Cont</button>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

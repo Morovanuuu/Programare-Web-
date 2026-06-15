@@ -19,6 +19,9 @@
         <% if (error) { %> 
             <p style="color: #d62828; font-weight: bold; background: #ffddd2; display: inline-block; padding: 10px; border-radius: 5px;"><%= error %></p> 
         <% } %>
+        <% if (success) { %>
+    <p style="color: #2ecc71; font-weight: bold; background: #e8f8f5; padding: 10px; border-radius: 5px; text-align: center;"><%= success %></p>
+<% } %>
     </div>
     
     <div class="form-container">
@@ -33,8 +36,8 @@
         <!-- Card Inregistrare -->
         <form action="/register" method="POST" class="card">
             <h3 style="color: #00b4d8;">Cont Nou</h3>
-            <input type="text" name="username" placeholder="Alege Username" required>
-            <input type="password" name="password" placeholder="Alege Parola" required>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Parola" required>
             <button type="submit" class="btn btn-register">Creează Cont</button>
         </form>
     </div>

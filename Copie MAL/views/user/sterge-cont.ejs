@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sterge Cont</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body style="background-color: <%= theme === 'dark' ? '#222' : '#f0f4f8' %>; color: <%= theme === 'dark' ? '#fff' : '#333' %>; font-family: Arial; padding: 50px; text-align: center;">
+    
+    <div class="card" style="max-width: 400px; margin: auto; padding: 30px; border: 2px solid #e74c3c; <%= theme === 'dark' ? 'background: #333; color: white;' : '' %>">
+        <h2 style="color: #e74c3c; margin-top: 0;">⚠️ Atentie!</h2>
+        <p style="font-size: 1.1em; line-height: 1.5;">Esti pe cale sa iti stergi contul definitiv.<br>Aceasta actiune <strong>nu poate fi anulata</strong>.</p>
+        
+        <form action="/sterge-cont" method="POST" style="margin-top: 25px;">
+            <button type="submit" style="background-color: #e74c3c; color: white; padding: 12px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%;">Da, sterge contul meu</button>
+        </form>
+        
+        <div style="margin-top: 20px;">
+            <a href="/profil" style="color: #0077b6; text-decoration: none; font-weight: bold;">Nu, du-ma inapoi</a>
+        </div>
+    </div>
+
+</body>
+</html>

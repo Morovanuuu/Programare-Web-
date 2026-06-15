@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Schimba Parola</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body style="background-color: <%= theme === 'dark' ? '#222' : '#f0f4f8' %>; color: <%= theme === 'dark' ? '#fff' : '#333' %>; font-family: Arial; padding: 50px; text-align: center;">
+    
+    <div class="card" style="max-width: 400px; margin: auto; padding: 30px; <%= theme === 'dark' ? 'background: #333; color: white;' : '' %>">
+        <h2 style="color: #f39c12; margin-top: 0;">Schimba Parola</h2>
+        <p style="margin-bottom: 20px; font-size: 0.9em; color: gray;">Introdu parola actuala pentru verificare.</p>
+        
+        <form action="/schimba-parola" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+            <input type="password" name="parolaVeche" placeholder="Parola Veche" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <input type="password" name="parolaNoua" placeholder="Parola Noua" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <button type="submit" style="background-color: #f39c12; color: white; padding: 10px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">Actualizeaza Parola</button>
+        </form>
+        
+        <div style="margin-top: 20px;">
+            <a href="/profil" style="color: #0077b6; text-decoration: none; font-weight: bold;">Anuleaza si intoarce-te</a>
+        </div>
+    </div>
+
+</body>
+</html>
